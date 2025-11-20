@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Diegoflip</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap');
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Comic Relief', 'Arial', sans-serif;
+                background: linear-gradient(135deg, #f5af19 0%, #edf111 100%);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                overflow: hidden;
+            }
+
+            h1 {
+                font-size: 3em;
+                margin-bottom: 20px;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+
+            .container {
+                perspective: 1000px;
+                margin: 40px 0;
+            }
+
+            .coin {
+                width: 250px;
+                height: 250px;
+                position: relative;
+                transform-style: preserve-3d;
+                cursor: pointer;
+                transition: transform 0.1s;
+            }
+
+            .coin:hover {
+                transform: scale(1.05);
+            }
+
+            .coin.flipping {
+                animation: flip 3s ease-in-out;
+                pointer-events: none;
+            }
+
+            .coin.flipping:hover {
+                transform: scale(1);
+            }
+
+            .side {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                backface-visibility: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                border: 8px solid #ffd700;
+                overflow: hidden;
+                background: #f0f0f0;
+            }
+
+            .side img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .heads {
+                transform: rotateY(0deg);
+            }
+
+            .tails {
+                transform: rotateY(180deg);
+            }
+
+            @keyframes flip {
+                0% {
+                    transform: rotateY(0deg) rotateX(0deg);
+                }
+                100% {
+                    transform: rotateY(var(--rotation-y)) rotateX(720deg);
+                }
+            }
+
+            .result {
+                font-size: 2em;
+                margin-top: 30px;
+                min-height: 40px;
+                font-weight: bold;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+
+            .controls {
+                margin-top: 40px;
+                background: rgba(255, 255, 255, 0.1);
+                padding: 30px;
+                border-radius: 15px;
+                backdrop-filter: blur(10px);
+                max-width: 500px;
+            }
+
+            .controls h3 {
+                margin-bottom: 20px;
+                font-size: 1.3em;
+            }
+
+            .upload-section {
+                margin-bottom: 20px;
+            }
+
+            .upload-section label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: bold;
+            }
+
+            .upload-section input[type='file'] {
+                width: 100%;
+                padding: 10px;
+                background: rgba(255, 255, 255, 0.2);
+                border: 2px solid rgba(255, 255, 255, 0.3);
+                border-radius: 8px;
+                color: white;
+                cursor: pointer;
+            }
+
+            .upload-section input[type='file']::file-selector-button {
+                background: rgba(255, 255, 255, 0.3);
+                border: none;
+                padding: 8px 15px;
+                border-radius: 5px;
+                color: white;
+                cursor: pointer;
+                margin-right: 10px;
+            }
+
+            .upload-section input[type='file']::file-selector-button:hover {
+                background: rgba(255, 255, 255, 0.4);
+            }
+        </style>
+    </head>
+    <body>
+        <h1>🪙 Diegoflip</h1>
+
+        <div class="container">
+            <div class="coin" id="coin">
+                <div class="side heads">
+                    <img id="headsImg" src="./Diego_heads.jpg" alt="Cara" />
+                </div>
+                <div class="side tails">
+                    <img id="tailsImg" src="./Diego_tails.jpg" alt="Coroa" />
+                </div>
+            </div>
+        </div>
+
+        <div class="result" id="result">Clique na moeda</div>
+
+        <script>
+            const coin = document.getElementById('coin');
+            const result = document.getElementById('result');
+
+            function flip() {
+                if (isFlipping) return;
+
+                isFlipping = true;
+                result.textContent = '...';
+
+                // Determina o resultado (0 = cara, 1 = coroa)
+                const flipResult = Math.random() < 0.5 ? 0 : 1;
+
+                // Calcula a rotação final
+                const baseRotation = 1800; // 5 voltas completas
+                const finalRotation =
+                    flipResult === 0 ? baseRotation : baseRotation + 180;
+
+                coin.style.setProperty('--rotation-y', `${finalRotation}deg`);
+                coin.classList.add('flipping');
+
+                setTimeout(() => {
+                    coin.classList.remove('flipping');
+                    isFlipping = false;
+
+                    if (flipResult === 0) {
+                        result.textContent = '👨 Diego';
+                        coin.style.transform = 'rotateY(0deg)';
+                    } else {
+                        result.textContent = '🐶 Diego';
+                        coin.style.transform = 'rotateY(180deg)';
+                    }
+                }, 3000);
+            }
+            let isFlipping = false;
+
+            // Flip da moeda
+            document.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') flip();
+            });
+            coin.addEventListener('click', () => {
+                flip();
+            });
+        </script>
+    </body>
+</html>
