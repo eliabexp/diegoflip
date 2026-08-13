@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
     <head>
         <meta charset="UTF-8" />
@@ -8,8 +8,8 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
             href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&display=swap"
-            rel="stylesheet"
-        />
+            rel="stylesheet" />
+        <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
         <style>
             :root {
                 /* geometria da moeda */
@@ -100,8 +100,7 @@
             }
 
             .stage:hover .tilt {
-                transform: rotateX(calc(var(--rest-tilt) - 4deg))
-                    scale3d(1.045, 1.045, 1.045);
+                transform: rotateX(calc(var(--rest-tilt) - 4deg)) scale3d(1.045, 1.045, 1.045);
             }
 
             .coin {
@@ -168,8 +167,7 @@
                 box-shadow:
                     0 0 0 1px rgba(77, 51, 8, 0.9),
                     0 0 0 3px rgba(247, 230, 180, 0.35),
-                    inset 0 calc(var(--size) * 0.02) calc(var(--size) * 0.06)
-                        rgba(0, 0, 0, 0.55);
+                    inset 0 calc(var(--size) * 0.02) calc(var(--size) * 0.06) rgba(0, 0, 0, 0.55);
             }
 
             .face__disc img {
@@ -186,11 +184,7 @@
                 position: absolute;
                 inset: 0;
                 background:
-                    radial-gradient(
-                        72% 62% at 30% 24%,
-                        rgba(255, 243, 205, 0.3),
-                        transparent 66%
-                    ),
+                    radial-gradient(72% 62% at 30% 24%, rgba(255, 243, 205, 0.3), transparent 66%),
                     radial-gradient(
                         100% 100% at 50% 50%,
                         transparent 50%,
@@ -233,8 +227,7 @@
                 margin-left: calc(var(--segw) / -2);
                 margin-top: calc(var(--thick) / -2);
                 backface-visibility: hidden;
-                transform: rotate(var(--a)) translateY(calc(var(--r) * -1))
-                    rotateX(90deg);
+                transform: rotate(var(--a)) translateY(calc(var(--r) * -1)) rotateX(90deg);
                 filter: brightness(var(--l));
                 background:
                     linear-gradient(
@@ -250,13 +243,7 @@
                         rgba(60, 40, 8, 0.3) 1px 2px,
                         transparent 2px 4px
                     ),
-                    linear-gradient(
-                        180deg,
-                        #b78a2c,
-                        #f4dc9a 42%,
-                        #d2a53f 62%,
-                        #8a6118
-                    );
+                    linear-gradient(180deg, #b78a2c, #f4dc9a 42%, #d2a53f 62%, #8a6118);
             }
 
             /* sombra projetada */
@@ -290,6 +277,24 @@
 
             .result.is-in {
                 animation: reveal 0.5s cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
+            }
+
+            .result.is-out {
+                animation: conceal 0.18s ease-in forwards;
+            }
+
+            .dots {
+                display: inline-flex;
+                align-items: flex-end;
+                gap: 0.34em;
+                padding-bottom: 0.28em;
+            }
+
+            .dots i {
+                width: 0.3em;
+                height: 0.3em;
+                border-radius: 50%;
+                background: currentColor;
             }
 
             .hint {
@@ -445,6 +450,17 @@
                 }
             }
 
+            @keyframes conceal {
+                from {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(-8px);
+                }
+            }
+
             @media (prefers-reduced-motion: reduce) {
                 .lift,
                 .shadow {
@@ -453,7 +469,8 @@
                 .is-flipping .coin {
                     animation: tumble 3s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
                 }
-                .result.is-in {
+                .result.is-in,
+                .result.is-out {
                     animation-duration: 0.01ms;
                 }
                 .tilt,
@@ -470,8 +487,7 @@
             type="button"
             aria-pressed="true"
             aria-label="Desligar som"
-            title="Som"
-        >
+            title="Som">
             🔊
         </button>
 
@@ -487,22 +503,14 @@
                             <div class="face face--heads">
                                 <div class="face__ring"></div>
                                 <div class="face__disc">
-                                    <img
-                                        id="headsImg"
-                                        src="./Diego_heads.jpg"
-                                        alt="Cara"
-                                    />
+                                    <img id="headsImg" src="./Diego_heads.jpg" alt="Cara" />
                                 </div>
                             </div>
 
                             <div class="face face--tails">
                                 <div class="face__ring"></div>
                                 <div class="face__disc">
-                                    <img
-                                        id="tailsImg"
-                                        src="./Diego_tails.jpg"
-                                        alt="Coroa"
-                                    />
+                                    <img id="tailsImg" src="./Diego_tails.jpg" alt="Coroa" />
                                 </div>
                             </div>
                         </div>
@@ -530,9 +538,7 @@
 
                 const dot = -0.55 * Math.sin(rad) + 0.84 * Math.cos(rad);
                 const light =
-                    0.5 +
-                    0.62 * Math.max(0, dot) ** 1.4 +
-                    0.34 * Math.max(0, -dot) ** 2.2;
+                    0.5 + 0.62 * Math.max(0, dot) ** 1.4 + 0.34 * Math.max(0, -dot) ** 2.2;
 
                 const seg = document.createElement('i');
                 seg.className = 'seg';
@@ -563,10 +569,7 @@
             function syncSoundToggle() {
                 soundToggle.textContent = soundOn ? '🔊' : '🔇';
                 soundToggle.setAttribute('aria-pressed', String(soundOn));
-                soundToggle.setAttribute(
-                    'aria-label',
-                    soundOn ? 'Desligar som' : 'Ligar som',
-                );
+                soundToggle.setAttribute('aria-label', soundOn ? 'Desligar som' : 'Ligar som');
             }
 
             function play(sound) {
@@ -598,37 +601,52 @@
                 }
             });
 
+            const SWAP_OUT = 180;
+            const DOTS =
+                '<span class="dots" role="img" aria-label="girando"><i></i><i></i><i></i></span>';
+
+            let swapTimer = null;
+
+            // troca o texto do resultado com fade de saída e entrada
+            function swapResult(html) {
+                clearTimeout(swapTimer);
+                result.classList.remove('is-in');
+                result.classList.add('is-out');
+
+                swapTimer = setTimeout(() => {
+                    result.innerHTML = html;
+                    result.classList.remove('is-out');
+                    void result.offsetWidth;
+                    result.classList.add('is-in');
+                }, SWAP_OUT);
+            }
+
             function flip() {
                 if (isFlipping) return;
 
                 isFlipping = true;
-                result.classList.remove('is-in');
-                result.textContent = '...';
+                swapResult(DOTS);
 
                 const flipResult = Math.random() < 0.5 ? 0 : 1;
 
                 const baseRotation = 1800; // 5 voltas completas
-                const finalRotation =
-                    flipResult === 0 ? baseRotation : baseRotation + 180;
+                const finalRotation = flipResult === 0 ? baseRotation : baseRotation + 180;
 
                 coin.style.transform = '';
                 coin.style.setProperty('--rotation-x', `${finalRotation}deg`);
                 stage.classList.add('is-flipping');
                 playFlipSounds();
 
+                setTimeout(
+                    () => swapResult(flipResult === 0 ? '👨 Diego' : '🐶 Diego'),
+                    3000 - SWAP_OUT
+                );
+
                 setTimeout(() => {
                     stage.classList.remove('is-flipping');
                     isFlipping = false;
 
-                    if (flipResult === 0) {
-                        result.textContent = '👨 Diego';
-                        coin.style.transform = 'rotateX(0deg)';
-                    } else {
-                        result.textContent = '🐶 Diego';
-                        coin.style.transform = 'rotateX(180deg)';
-                    }
-
-                    result.classList.add('is-in');
+                    coin.style.transform = flipResult === 0 ? 'rotateX(0deg)' : 'rotateX(180deg)';
                 }, 3000);
             }
             let isFlipping = false;
